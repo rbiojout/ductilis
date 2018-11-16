@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Test Project</title>
+    {% render_bundle 'index' 'css' %}
+  </head>
+  <body>
+    <div id="reference">
+    </div>
+    {% render_bundle 'reference' 'js' %}
+  </body>
+</html>
