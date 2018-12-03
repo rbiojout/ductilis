@@ -3,17 +3,18 @@
 
 import datetime
 import io
-import zipfile
-
 import numpy as np
 import pandas as pd
-import quandl
 import requests
-from ductilis.company.models import Company
+import zipfile
 from django.core import serializers
 from django.http import HttpResponse
-from ductilis.exchange.models import Tick, Provider, TICK_COLUMNS
 
+import quandl
+from ductilis.company.models import Company
+from ductilis.exchange.models import Ticker, Tick, Provider, TICK_COLUMNS
+
+from ductilis.exchange import tasks
 
 QUANDL_KEY = 'Mg3MbahVgbYfYoyPfs9a'
 quandl.ApiConfig.api_key = QUANDL_KEY
@@ -80,7 +81,7 @@ def fill_ticks(database_name= 'WIKI', ticker='AAPL'):
     print(df)
 
     # recover the stock
-    company = Company.objects.filter(symbol=ticker)[0]
+    ticker = Ticker.objects.filter(symbol=ticker)[0]
 
     # recover the provider
     try:
@@ -91,7 +92,7 @@ def fill_ticks(database_name= 'WIKI', ticker='AAPL'):
 
     # look for missing dates
     print(TICK_COLUMNS.copy().insert(0, 'id'))
-    ticks_db = Tick.objects.filter(company=company, provider=quandl_provider
+    ticks_db = Tick.objects.filter(ticker=ticker, provider=quandl_provider
                                     #, date__gte=datetime.date(2017, 7, 28)
                                     ).values('id', 'date', 'open', 'high', 'low', 'close', 'volume', 'open_adj', 'high_adj', 'low_adj', 'close_adj', 'volume_adj', 'dividend', 'splits')
     # dates_db = [e.date for e in ticks_db]
@@ -103,7 +104,7 @@ def fill_ticks(database_name= 'WIKI', ticker='AAPL'):
     if len(ticks_db)==0:
         # create all
         Tick.objects.bulk_create(
-            Tick(company=company, provider=quandl_provider, **vals) for vals in
+            Tick(ticker=ticker, provider=quandl_provider, **vals) for vals in
             df.to_dict('records')
         )
     else:
@@ -130,7 +131,7 @@ def fill_ticks(database_name= 'WIKI', ticker='AAPL'):
 
         #print("data_to_insert ",data_to_insert)
         Tick.objects.bulk_create(
-            Tick(company=company, provider=quandl_provider, **vals) for vals in
+            Tick(ticker=ticker, provider=quandl_provider, **vals) for vals in
             data_to_insert.to_dict('records')
         )
 
@@ -199,7 +200,7 @@ def fill_ticks_old(database_name= 'WIKI', ticker='AAPL'):
     )
 
 
-def create_tickers(request):
+def create_tickers_old(request):
     database_name = 'WIKI'
 
     database_meta = query_data(database_name=database_name)
@@ -226,4 +227,11 @@ def create_tickers(request):
         page = page + 1
     """
     response = "Request finished. {} {}".format(ticker, database_meta['code'])
+    return HttpResponse(response)
+
+
+def create_tickers(request):
+    tasks.call_quandl_task()
+
+    response = "Request sent. "
     return HttpResponse(response)

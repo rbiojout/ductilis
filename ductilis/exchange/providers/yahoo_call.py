@@ -1,15 +1,14 @@
 import datetime
-import timeit
-
-import ductilis.exchange.providers.fix_yahoo_finance as yf
 import numpy as np
 import pandas as pd
-from ductilis.company.models import Company
+import timeit
 from django.core import serializers
 from django.http import HttpResponse
-from ductilis.exchange.models import Ticker, Tick, Provider, TICK_COLUMNS
 from pandas_datareader import data as pdr
 
+from ductilis.exchange.providers import fix_yahoo_finance as yf
+from ductilis.company.models import Company
+from ductilis.exchange.models import Ticker, Tick, Provider, TICK_COLUMNS
 
 yf.pdr_override() # <== that's all it takes :-)
 
@@ -107,19 +106,19 @@ def fill_ticks(ticker='AAPL'):
 
     # print(df)
 
-    # recover the stock
-    company = Company.objects.filter(symbol=ticker)[0]
+    # recover the stock ticker
+    ticker = Ticker.objects.get(symbol=ticker)
 
     # recover the provider
     try:
-        yahoo_provider = Provider.objects.filter(name="yahoo")[0]
+        yahoo_provider = Provider.objects.get(name="yahoo")
     except IndexError:
         yahoo_provider = Provider.objects.create(name="yahoo")
         yahoo_provider.save()
 
     # look for missing dates
     # print(TICK_COLUMNS.copy().insert(0, 'id'))
-    ticks_db = Tick.objects.filter(company=company, provider=yahoo_provider
+    ticks_db = Tick.objects.filter(ticker=ticker, provider=yahoo_provider
                                     #, date__gte=datetime.date(2017, 7, 28)
                                     ).values('id', 'date', 'open', 'high', 'low', 'close', 'volume', 'open_adj', 'high_adj', 'low_adj', 'close_adj', 'volume_adj', 'dividend', 'splits')
     # dates_db = [e.date for e in ticks_db]
@@ -131,7 +130,7 @@ def fill_ticks(ticker='AAPL'):
     if len(ticks_db)==0:
         # create all
         Tick.objects.bulk_create(
-            Tick(company=company, provider=yahoo_provider, **vals) for vals in
+            Tick(ticker=ticker, provider=yahoo_provider, **vals) for vals in
             df.to_dict('records')
         )
     else:
@@ -158,7 +157,7 @@ def fill_ticks(ticker='AAPL'):
 
         #print("data_to_insert ",data_to_insert)
         Tick.objects.bulk_create(
-            Tick(company=company, provider=yahoo_provider, **vals) for vals in
+            Tick(ticker=ticker, provider=yahoo_provider, **vals) for vals in
             data_to_insert.to_dict('records')
         )
 

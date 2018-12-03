@@ -9,7 +9,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -30,6 +29,12 @@ wheels/
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+
+## Virtual Env Ductilis
+ductilis/bin/
+ductilis/include/
+ductilis/lib/
+
 
 # Installer logs
 pip-log.txt
@@ -80,6 +85,14 @@ ENV/
 # mypy
 .mypy_cache/
 
+
+### NODE
+npm.lock
+yarn.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules/
 
 ### Node template
 # Logs
@@ -320,6 +333,14 @@ Session.vim
 # Auto-generated tag files
 tags
 
+# celery
+celerybeat-schedule.db
+
+# webpack work
+yarn.lock
+webpack-stats.json
+assets/
+build/
 
 ### Project template
 
@@ -330,5 +351,11 @@ ductilis/media/
 
 .ipython/
 .env
+.env.local
 .envs/*
 !.envs/.local/
+
+### CONFIDENTIAL INFORMATIONS
+.npmrc
+settings.ini
+

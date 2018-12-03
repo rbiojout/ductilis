@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from datatrade.exchange.providers.iex import (get_available_symbols, get_iex_corporate_actions,
+from ductilis.exchange.providers.iex import (get_available_symbols, get_iex_corporate_actions,
                         get_iex_dividends, get_iex_next_day_ex_date,
                         get_iex_listed_symbol_dir)
 

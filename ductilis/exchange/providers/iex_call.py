@@ -1,11 +1,13 @@
 import datetime
-
-from ductilis.company.models import Company, Industry, Sector, Earning, FiscalPeriod, ANOUNCE_TIME_KEYS
 from django.core import serializers
 from django.db import models
 from django.http import HttpResponse
+
+from ductilis.company.models import Company, Industry, Sector, Earning, FiscalPeriod, ANOUNCE_TIME_KEYS
 from ductilis.exchange.models import Ticker, Exchange, Tick, Provider
 from ductilis.exchange.providers import iex
+
+from ductilis.exchange import tasks
 
 def clean_db():
     # get the list of symbols
@@ -145,7 +147,7 @@ def import_earnings():
                 print("Created earning ", earning_db)
 
 def import_chart():
-    apple = Company.objects.filter(symbol='AAPL')[0]
+    apple = Ticker.objects.filter(symbol='AAPL')[0]
     chart = iex.get_historical_data(symbols='AAPL')
     data = chart['AAPL']
 
@@ -159,9 +161,9 @@ def import_chart():
         date = string_to_date(date_tick)
 
         try:
-            tick_db = Tick.objects.filter(company=apple, provider=iex_provider, date=date)[0]
+            tick_db = Tick.objects.filter(ticker=apple, provider=iex_provider, date=date)[0]
         except IndexError:
-            tick_db = Tick.objects.create(company=apple, provider=iex_provider, date=date,
+            tick_db = Tick.objects.create(ticker=apple, provider=iex_provider, date=date,
                                           open=data[date_tick]['open'], high=data[date_tick]['high'],
                                           low=data[date_tick]['low'], close=data[date_tick]['close'],
                                           volume=data[date_tick]['volume'])
@@ -170,10 +172,18 @@ def import_chart():
     ticks = serializers.json.Deserializer(chart)
     print("ticks", ticks)
 
-def create_tickers(request):
+
+
+def create_tickers_old(request):
     # clean_db()
-    #available_symbols = build_companies()
+    available_symbols = build_companies()
     #import_earnings()
     import_chart()
+    response = "Request finished."
+    return HttpResponse(response)
+
+
+def create_tickers(request):
+    tasks.call_iex_task.delay()
     response = "Request finished."
     return HttpResponse(response)

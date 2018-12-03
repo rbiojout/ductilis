@@ -1,7 +1,7 @@
 import pytest
 from pandas import DataFrame
 
-from datatrade.exchange.providers.iex import (get_market_tops, get_market_last, get_market_deep,
+from ductilis.exchange.providers.iex import (get_market_tops, get_market_last, get_market_deep,
                                             get_market_book)
 
 

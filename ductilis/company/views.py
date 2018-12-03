@@ -6,7 +6,7 @@ from .models import Company
 
 # Create your views here.
 
-app_name = 'company'
+app_name = 'ductilis.company'
 def index(request):
     latest_companies_list = Company.objects.order_by('-id')[:5]
     #output = ', '.join([c.name for c in latest_companies_list])

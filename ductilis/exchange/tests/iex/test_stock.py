@@ -6,12 +6,12 @@ from pandas.util.testing import assert_index_equal
 
 from decimal import Decimal
 
-from datatrade.exchange.providers.iex import (get_historical_data, get_market_gainers,
+from ductilis.exchange.providers.iex import (get_historical_data, get_market_gainers,
                         get_market_losers, get_market_most_active,
                         get_market_iex_volume, get_market_iex_percent,
                         get_market_in_focus, get_sector_performance)
-from datatrade.exchange.providers.iex import Stock
-from datatrade.exchange.providers.iex.utils.exceptions import IEXSymbolError, IEXEndpointError
+from ductilis.exchange.providers.iex import Stock
+from ductilis.exchange.providers.iex.utils.exceptions import IEXSymbolError, IEXEndpointError
 
 import six
 

@@ -33,8 +33,8 @@ class TickerAdmin(admin.ModelAdmin):
 
 @admin.register(Tick)
 class TickAdmin(admin.ModelAdmin):
-    list_display = ("company","provider","date",)
-    list_filter = ("provider","company",)
-    search_fields = ["company", ]
+    list_display = ("ticker","provider","date",)
+    list_filter = ("provider","ticker",)
+    search_fields = ["ticker", ]
     ordering = ['-date']
     readonly_fields = [f.name for f in Tick._meta.fields]

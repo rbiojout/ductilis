@@ -3,6 +3,8 @@ from django.db import models
 
 from ductilis.company.models import Company
 
+
+
 class Exchange(models.Model):
     DELTA_UTC = (
         (-11, '(-11) Midway, Pago Pago'),
@@ -30,7 +32,7 @@ class Exchange(models.Model):
         (11, '(11) Noumea'),
         (12, '(12) Welligton'),
     )
-    name = models.CharField(max_length=200,  unique=True)
+    name = models.CharField(max_length=200, unique=True, null=False, blank=False)
     time_zone = models.IntegerField(choices=DELTA_UTC, default=0, validators=[MinValueValidator(-12), MaxValueValidator(12)])
     opening_time = models.DateTimeField('local opening time',null=True, blank=True)
     closing_time = models.DateTimeField('local closing time',null=True, blank=True)
@@ -38,22 +40,15 @@ class Exchange(models.Model):
     def __str__(self):
         return self.name
 
-
-class Provider(models.Model):
-    name = models.CharField(max_length=200, unique=True)
-    home_url = models.CharField(max_length=200)
-    api_url = models.CharField(max_length=200, blank=True)
-    comment = models.TextField(null=True, blank=True)
-    exchanges = models.ManyToManyField(Exchange)
-
-    def __str__(self):
-        return self.name
-
-
 class Ticker(models.Model):
     symbol = models.CharField(max_length=200, unique=True)
-    company = models.ForeignKey(Company, on_delete=models.PROTECT, related_name='ticker')
-    exchange = models.ForeignKey(Exchange, on_delete=models.PROTECT, null=True, blank=True, related_name='exchange')
+    company = models.OneToOneField(Company, on_delete=models.PROTECT, related_name='ticker')
+    exchange = models.ForeignKey(Exchange, on_delete=models.PROTECT, null=True, blank=True, related_name='tickers')
+
+    @property
+    def company_name(self):
+        "Returns the company's name."
+        return self.company__name
 
     class Meta:
         ordering = ['symbol']
@@ -62,19 +57,33 @@ class Ticker(models.Model):
         return self.symbol
 
 
+class Provider(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    home_url = models.CharField(max_length=200)
+    api_url = models.CharField(max_length=200, blank=True)
+    comment = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class TickManager(models.Manager):
-    def get_by_natural_key(self, company, date, provider):
-        return self.get(company=company, date=date, provider=provider)
+    def get_by_natural_key(self, ticker, date, provider):
+        return self.get(ticker=ticker, date=date, provider=provider)
 
 
 TICK_COLUMNS = ['date', 'open', 'high', 'low', 'close', 'volume', 'open_adj', 'high_adj', 'low_adj', 'close_adj', 'volume_adj', 'dividend', 'splits']
 
+# used for fixtures
+class TickManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(ticker__symbol='AAPL')
+
 class Tick(models.Model):
     #objects = TickManager()
     id = models.BigAutoField(primary_key=True)
-
-    company = models.ForeignKey(Company, on_delete=models.PROTECT)
-    provider = models.ForeignKey(Provider, on_delete=models.PROTECT)
+    ticker = models.ForeignKey(Ticker, on_delete=models.CASCADE, related_name='ticker_ticks')
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='provider_ticks')
     date = models.DateField()
     open = models.FloatField()
     high = models.FloatField()
@@ -94,8 +103,8 @@ class Tick(models.Model):
     # second index as small as possible
     class Meta:
         unique_together = (
-            'company',
+            'ticker',
             'provider',
             'date',
         )
-        ordering = ['company', 'date', 'provider']
+        ordering = ['ticker', 'date', 'provider']

@@ -1,1 +1,1 @@
-import datatrade.exchange.providers.iex as iex
+import ductilis.exchange.providers.iex as iex
