@@ -339,7 +339,6 @@ celerybeat-schedule.db
 # webpack work
 yarn.lock
 webpack-stats.json
-assets/
 build/
 
 ### Project template
