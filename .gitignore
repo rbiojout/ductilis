@@ -348,6 +348,7 @@ ductilis/media/
 
 .pytest_cache/
 
+static/
 
 .ipython/
 .env
