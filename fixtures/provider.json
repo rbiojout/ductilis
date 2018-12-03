@@ -1,0 +1,1 @@
+[{"model": "exchange.provider", "pk": 1, "fields": {"name": "yahoo", "home_url": "finance.yahoo.com", "api_url": "", "comment": ""}}, {"model": "exchange.provider", "pk": 2, "fields": {"name": "iex", "home_url": "iex", "api_url": "", "comment": ""}}, {"model": "exchange.provider", "pk": 3, "fields": {"name": "quandl", "home_url": "Quandl", "api_url": "", "comment": ""}}]
