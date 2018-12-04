@@ -2,8 +2,8 @@ import expect from 'expect';
 import React from 'react';
 import { renderToStaticMarkup as render } from 'react-dom/server';
 
-import logo from '../../../public/assets/img/brand/logo.svg'
-import sygnet from '../../../public/assets/img/brand/sygnet.svg'
+import logo from '../../assets/img/brand/logo.svg'
+import sygnet from '../../assets/img/brand/sygnet.svg'
 
 import AppNavbarBrand from './NavbarBrand';
 
