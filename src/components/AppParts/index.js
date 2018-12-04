@@ -33,18 +33,18 @@ import AppSidebarNav from './SidebarNav';
 import AppSidebarToggler from './SidebarToggler';
 import AppSwitch from './Switch';
 // export AppLayout from './Shared';
-export { AppAside as AppAside };
-export { AppAsideToggler as AppAsideToggler };
-export { AppBreadcrumb as AppBreadcrumb };
-export { AppFooter as AppFooter };
-export { AppHeader as AppHeader };
-export { AppHeaderDropdown as AppHeaderDropdown };
-export { AppNavbarBrand as AppNavbarBrand };
-export { AppSidebar as AppSidebar };
-export { AppSidebarFooter as AppSidebarFooter };
-export { AppSidebarForm as AppSidebarForm };
-export { AppSidebarHeader as AppSidebarHeader };
-export { AppSidebarMinimizer as AppSidebarMinimizer };
-export { AppSidebarNav as AppSidebarNav };
-export { AppSidebarToggler as AppSidebarToggler };
-export { AppSwitch as AppSwitch };
+export { AppAside,
+        AppAsideToggler,
+        AppBreadcrumb,
+        AppFooter,
+        AppHeader,
+        AppHeaderDropdown,
+        AppNavbarBrand,
+        AppSidebar,
+        AppSidebarFooter,
+        AppSidebarForm,
+        AppSidebarHeader,
+        AppSidebarMinimizer,
+        AppSidebarNav,
+        AppSidebarToggler,
+        AppSwitch };

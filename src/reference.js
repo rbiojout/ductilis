@@ -17,7 +17,7 @@ function getUrlVars() {
     return vars;
   }
 
-  var urlParams = getUrlVars();
+  // var urlParams = getUrlVars();
 
   /*
   switch (urlParams["template"]) {

@@ -1,6 +1,4 @@
-import fetch from 'cross-fetch'
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getResources, getStatus } from 'redux-resource';
@@ -39,7 +37,6 @@ class TickerChooser extends Component {
   handleRefreshClick(e) {
     e.preventDefault()
 
-    const { dispatch, selectedTicker } = this.props
     this.props.fetchTickersIfNeeded()
   }
 

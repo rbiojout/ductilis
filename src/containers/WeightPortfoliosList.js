@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 
@@ -17,13 +17,9 @@ import { fetchTickersIfNeeded } from '../actions/crud_tickers';
 
 import {
   Button,
-  FormGroup,
-  Label,
   Input,
   InputGroup,
   InputGroupAddon,
-  Row,
-  Table,
 } from 'reactstrap';
 
 import TickerSelector from '../components/TickerSelector';
@@ -37,9 +33,6 @@ const WeightPortfolioSchema = Yup.object().shape({
 
 
 class WeightPortfolio extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { portfolioId, weightPortfolio, updateWeightPortfolio, deleteWeightPortfolio } = this.props;
     console.log('props formik ', this.props);

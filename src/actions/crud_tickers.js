@@ -28,9 +28,9 @@ function parseData(parse) {
 
 // The Redux Resource XHR library only exports bulk actions, so we use this
 // function to turn single-resource responses from the server into arrays.
-function singleResourceToArray(body) {
-  return [body];
-}
+// function singleResourceToArray(body) {
+//   return [body];
+// }
 
 
 export function selectTicker(tickerId) {
@@ -71,7 +71,7 @@ function shouldFetchTickers(state) {
     }
     const tickers = getResources(state.tickers, 'allTickers');
     const tickersStatus = getStatus(state,`tickers.requests.getAllTickers.status`,true);
-    if (tickers.length == 0) {
+    if (tickers.length === 0) {
       return true
     } else if (tickersStatus.pending) {
       return false
@@ -125,7 +125,7 @@ function readTicks(tickerSymbol) {
     }
     const ticks = getResources(state.ticks, `ticks_${tickerSymbol}`);
     const ticksStatus = getStatus(state,`ticks.requests.getTicks_${tickerSymbol}.status`,true);
-    if (ticks.length == 0) {
+    if (ticks.length === 0) {
       return true
     } else if (ticksStatus.pending) {
       return false

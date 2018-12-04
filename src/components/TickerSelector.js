@@ -1,15 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
-import { FormGroup, Label, Col, Input } from 'reactstrap';
+import { FormGroup } from 'reactstrap';
 import {Typeahead, Menu, MenuItem} from 'react-bootstrap-typeahead';
 
 class TickerSelector extends Component {
-    constructor(props) {
-      super(props);
-    }
-  
-    
     render() {
       const { selectedTicker, onChange, options } = this.props
       

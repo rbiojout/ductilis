@@ -90,6 +90,7 @@ DJANGO_APPS = [
     # 'django.contrib.humanize', # Handy template tags
     'django.contrib.admin',
 ]
+# cf http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html
 THIRD_PARTY_APPS = [
     'crispy_forms',
     'allauth',
@@ -97,6 +98,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'corsheaders',
+    'django_celery_beat',
     'webpack_loader',
 ]
 LOCAL_APPS = [
@@ -278,6 +280,10 @@ CELERYD_TASK_TIME_LIMIT = 5 * 60
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-soft-time-limit
 # TODO: set to whatever value is adequate in your circumstances
 CELERYD_TASK_SOFT_TIME_LIMIT = 60
+# beat
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
 # django-allauth
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = True

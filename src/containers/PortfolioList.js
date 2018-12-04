@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { getResources, getStatus } from 'redux-resource';
 import * as Yup from 'yup';
@@ -12,7 +12,6 @@ import {
 
 import { Formik, Form, Field } from 'formik';
 import {
-  Badge,
   Button,
   Card,
   CardBody,
@@ -22,7 +21,6 @@ import {
   InputGroup,
   InputGroupAddon,
   Row,
-  Table,
 } from 'reactstrap';
 
 import WeightPortfoliosList from './WeightPortfoliosList';
@@ -35,9 +33,6 @@ const PortfolioSchema = Yup.object().shape({
 });
 
 class Portfolio extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { portfolio, selected } = this.props;
     const portfolioId = portfolio.id;

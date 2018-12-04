@@ -4,9 +4,6 @@ import './App.scss';
 
 import { Provider } from "react-redux";
 import configureStore from './configureStore';
-import { createStore, applyMiddleware } from "redux";
-import thunkMiddleware from 'redux-thunk';
-import dataTradeApp from "./reducers";
 
 // Containers
 import { DefaultLayout } from './containers';

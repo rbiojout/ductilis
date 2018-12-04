@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
 
 import {
   Card,
@@ -52,10 +51,6 @@ const fixture = {
 }
 
 class Data extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render(){
     return (
       <div className="animated fadeIn">

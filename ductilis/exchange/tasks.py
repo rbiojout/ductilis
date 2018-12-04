@@ -2,8 +2,6 @@
 import logging
 import timeit
 
-from celery.task.schedules import crontab
-from celery.decorators import periodic_task
 
 from celery.decorators import task
 from celery.utils.log import get_task_logger
@@ -16,11 +14,11 @@ from ductilis.exchange.providers import iex_call, yahoo_call, quandl_call
 logger = logging.getLogger(__name__)
 
 #@periodic_task(run_every=(crontab(minute='*/15')), name="call_iex", ignore_result=True)
-@task(name="call_iex")
+@task(name="exchange.call_iex")
 def call_iex_task():
     return iex_call.build_companies()
 
-@task(name="call_quandl")
+@task(name="exchange.call_quandl")
 def call_quandl_task():
     database_name = 'WIKI'
 
@@ -34,7 +32,7 @@ def call_quandl_task():
     return {}
 
 
-@task(name="call_yahoo")
+@task(name="exchange.call_yahoo")
 def call_yahoo_task():
     tickers = Ticker.objects.all()
     for item in tickers:

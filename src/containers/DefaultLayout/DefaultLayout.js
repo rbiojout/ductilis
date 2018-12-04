@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
-import { connect } from "react-redux";
-import { getTemplateStatus } from '../../actions/templates';
-
 import {
   AppAside,
   AppBreadcrumb,

@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-import { Row, Col } from 'reactstrap'
 import { connect } from 'react-redux';
 import { templates } from '../../actions';
 
