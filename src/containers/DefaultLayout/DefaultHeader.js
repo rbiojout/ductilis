@@ -3,8 +3,8 @@ import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLin
 import PropTypes from 'prop-types';
 
 import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '../../components/AppParts';
-import logo from '../../../public/assets/img/brand/logo.svg'
-import sygnet from '../../../public/assets/img/brand/sygnet.svg'
+import logo from '../../assets/img/brand/logo.svg'
+import sygnet from '../../assets/img/brand/sygnet.svg'
 
 const propTypes = {
   children: PropTypes.node,
