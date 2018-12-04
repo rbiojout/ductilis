@@ -183,7 +183,7 @@ def fill_ticks(ticker='AAPL'):
             # need to add id of existing objects
             data_to_update['id'] = df_db['id']
 
-            data_update_db = [Tick(company=company, provider=yahoo_provider, **vals) for vals in data_to_update.to_dict('records')]
+            data_update_db = [Tick(ticker=ticker, provider=yahoo_provider, **vals) for vals in data_to_update.to_dict('records')]
             for item in data_update_db:
                 item.save()
 
