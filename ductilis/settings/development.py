@@ -12,14 +12,15 @@ ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default=['*.amazonaws.com', '*.du
 
 MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware',]
 
+# use PROJECT_DIR to position the logs
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'WARNING',
             'class': 'logging.FileHandler',
-            'filename': '/webapps/ductilis/var/logs/ductilis.log',
+            'filename': PROJECT_DIR + '/var/logs/ductilis.log',
         },
     },
     'loggers': {
@@ -28,7 +29,7 @@ LOGGING = {
             'level': 'ERRORS',
           },
           'handlers': ['file'],
-            'level': 'DEBUG',
+            'level': 'WARNING',
             'propagate': True,
         },
     },

@@ -21,6 +21,10 @@ from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# dir to access vars, in particular var/logs
+PROJECT_DIR = os.path.dirname(BASE_DIR)
+
+print("PATH", PROJECT_DIR +'/debug.log')
 
 #ROOT_DIR = environ.Path(__file__) - 2  # (ductilis/settings/base.py - 2 = ductilis/)
 

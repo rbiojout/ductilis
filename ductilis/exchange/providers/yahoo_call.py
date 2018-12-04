@@ -4,12 +4,21 @@ import pandas as pd
 import timeit
 from django.core import serializers
 from django.http import HttpResponse
+# import the logging library
+import logging
+
 from pandas_datareader import data as pdr
 
 from ductilis.exchange.providers import fix_yahoo_finance as yf
 from ductilis.company.models import Company
 from ductilis.exchange.models import Ticker, Tick, Provider, TICK_COLUMNS
 
+from ductilis.exchange import tasks
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+# prepare the yahoo calls
 yf.pdr_override() # <== that's all it takes :-)
 
 """
@@ -76,7 +85,7 @@ def fill_ticks(ticker='AAPL'):
         return
 
     end = timeit.default_timer()
-    print('TICKER from Yahho:', ticker, ' Time: ', end - start)
+    logger.debug('TICKER from Yahoo:', ticker, ' Time: ', end - start)
 
     # Add
     dataset['Adj Volume'] = dataset['Volume']
@@ -87,7 +96,7 @@ def fill_ticks(ticker='AAPL'):
     dataset['Adj High'] = ratio * dataset['High']
     dataset['Adj Low'] = ratio * dataset['Low']
 
-    # print("COLUMNS :", dataset.columns)
+    # logger.debug("COLUMNS :", dataset.columns)
     # ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
     # prepare the columns
     df = dataset.copy()
@@ -104,7 +113,7 @@ def fill_ticks(ticker='AAPL'):
     #df['date'] = pd.to_datetime(df.index)
     df['volume'] = df['volume'].astype(np.int64)
 
-    # print(df)
+    # logger.debug(df)
 
     # recover the stock ticker
     ticker = Ticker.objects.get(symbol=ticker)
@@ -155,21 +164,21 @@ def fill_ticks(ticker='AAPL'):
         temp_to_insert = result[result['close_y'].isnull()]
         data_to_insert = df.loc[temp_to_insert.index.values]
 
-        #print("data_to_insert ",data_to_insert)
+        #logger.debug("data_to_insert ",data_to_insert)
         Tick.objects.bulk_create(
             Tick(ticker=ticker, provider=yahoo_provider, **vals) for vals in
             data_to_insert.to_dict('records')
         )
 
         ## need to be updated
-        #print("result ", result)
-        #print("CHANGE",result[(result['delta']!=0.0)])
+        #logger.debug("result ", result)
+        #logger.debug("CHANGE",result[(result['delta']!=0.0)])
         temp_to_update = result[(result['delta'].abs()>1e-5) & (result['close_y'].notnull())]
         #index_to_update = df.index.difference(temp_to_update.index)
         data_to_update = df.loc[temp_to_update.index.values]
 
-        #print("data_to_update ",data_to_update)
-        print("data to update :", data_to_update.shape[0])
+        #logger.debug("data_to_update ",data_to_update)
+        logger.debug("data to update :", data_to_update.shape[0])
         if len(data_to_update)>0:
             # need to add id of existing objects
             data_to_update['id'] = df_db['id']
@@ -182,16 +191,21 @@ def fill_ticks(ticker='AAPL'):
             #df.sort_index(inplace=True)
 
 
-def create_tickers(request):
+def create_tickers_old(request):
     tickers = Ticker.objects.all()
     for item in tickers:
         start = timeit.default_timer()
         ticker = item.symbol
-        print("*********** start with ticker ", ticker)
+        logger.debug("*********** start with ticker ", ticker)
 
         fill_ticks(ticker)
         end = timeit.default_timer()
-        print("persist ticker ", ticker, ' Time: ', end - start)
+        logger.debug("persist ticker ", ticker, ' Time: ', end - start)
 
     response = "Request finished. {}".format(ticker)
+    return HttpResponse(response)
+
+def create_tickers(request):
+    tasks.call_yahoo_task.delay()
+    response = "Request finished."
     return HttpResponse(response)
