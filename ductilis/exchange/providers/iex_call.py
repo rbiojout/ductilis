@@ -2,12 +2,17 @@ import datetime
 from django.core import serializers
 from django.db import models
 from django.http import HttpResponse
+# import the logging library
+import logging
 
 from ductilis.company.models import Company, Industry, Sector, Earning, FiscalPeriod, ANOUNCE_TIME_KEYS
 from ductilis.exchange.models import Ticker, Exchange, Tick, Provider
 from ductilis.exchange.providers import iex
 
 from ductilis.exchange import tasks
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 def clean_db():
     # get the list of symbols
@@ -38,7 +43,7 @@ def build_companies():
 
             # INDUSTRY
             industry = company['industry']
-            print("INDUSTRY ", industry)
+            logger.debug("INDUSTRY ", industry)
             try:
                 industry_db = Industry.objects.filter(name=industry)[0]
             except IndexError:
@@ -105,9 +110,9 @@ def import_earnings():
 
         earnings = stock.get_earnings()
         for earning in earnings:
-            print("earning ",earning)
+            logger.debug("earning ",earning)
             fiscalPeriod = earning['fiscalPeriod']
-            print("=======fiscalPeriod ", fiscalPeriod)
+            logger.debug("=======fiscalPeriod ", fiscalPeriod)
             if fiscalPeriod is not None:
                 try:
                     fiscalPeriod_db = FiscalPeriod.objects.filter(name=fiscalPeriod)[0]
@@ -144,7 +149,7 @@ def import_earnings():
                         earning_db.yearAgoChangePercent = earning['yearAgoChangePercent']
                         earning_db.estimatedChangePercent = earning['estimatedChangePercent']
                     earning_db.save()
-                print("Created earning ", earning_db)
+                    logger.debug("Created earning ", earning_db)
 
 def import_chart():
     apple = Ticker.objects.filter(symbol='AAPL')[0]

@@ -11,3 +11,25 @@ ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default=['*.amazonaws.com', '*.du
 
 
 MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware',]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/webapps/ductilis/var/logs/ductilis.log',
+        },
+    },
+    'loggers': {
+        'django': {
+          'django.db.backends': {
+            'level': 'ERRORS',
+          },
+          'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
