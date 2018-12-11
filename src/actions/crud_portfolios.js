@@ -81,7 +81,7 @@ export function readPortfolio(portfolioId) {
 export function readManyUserPortfolios(userId) {
   const xhrOptions = {
     method: 'GET',
-    url: `${API_ROOT}/portfolios`,
+    url: `${API_ROOT}/portfolios/`,
     json: true,
     //headers
   };

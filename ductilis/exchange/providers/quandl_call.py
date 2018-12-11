@@ -9,12 +9,17 @@ import requests
 import zipfile
 from django.core import serializers
 from django.http import HttpResponse
+# import the logging library
+import logging
 
 import quandl
 from ductilis.company.models import Company
 from ductilis.exchange.models import Ticker, Tick, Provider, TICK_COLUMNS
 
 from ductilis.exchange import tasks
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 QUANDL_KEY = 'Mg3MbahVgbYfYoyPfs9a'
 quandl.ApiConfig.api_key = QUANDL_KEY

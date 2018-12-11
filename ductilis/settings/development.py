@@ -12,6 +12,9 @@ ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default=['*.amazonaws.com', '*.du
 
 MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware',]
 
+
+CELERY_TASK_DEFAULT_QUEUE = ''
+
 # use PROJECT_DIR to position the logs
 LOGGING = {
     'version': 1,

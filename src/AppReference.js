@@ -5,10 +5,45 @@ import './App.scss';
 import { Provider } from "react-redux";
 import configureStore from './configureStore';
 
+import Loadable from 'react-loadable';
+
+import './App.scss';
+
+const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
+
 // Containers
-import { DefaultLayout } from './containers';
+const ReferenceLayout = Loadable({
+  loader: () => import('./containers/Layout/ReferenceLayout'),
+  loading
+});
+
 // Pages
-// import { Login, Page404, Page500, Register } from './views/Pages';
+const User = Loadable({
+  loader: () => import('./views/Users/User'),
+  loading
+});
+
+const Login = Loadable({
+  loader: () => import('./views/Pages/Login/Login'),
+  loading
+});
+
+const Register = Loadable({
+  loader: () => import('./views/Pages/Register/Register'),
+  loading
+});
+
+const Page404 = Loadable({
+  loader: () => import('./views/Pages/Page404/Page404'),
+  loading
+});
+
+const Page500 = Loadable({
+  loader: () => import('./views/Pages/Page500/Page500'),
+  loading
+});
+
+
 
 // import { renderRoutes } from 'react-router-config';
 
@@ -24,8 +59,7 @@ class AppReference extends Component {
       <Provider store={store}>
         <HashRouter>
           <Switch>
-            {/* <Route path="/h" name="Home" component={DefaultLayout} /> */}
-            <Route path='/' render={routeProps => <DefaultLayout {...routeProps} isRestricted={false} />} />
+            <Route path='/' render={routeProps => <ReferenceLayout {...routeProps} isRestricted={false} />} />
           </Switch>
         </HashRouter>
       </Provider>
