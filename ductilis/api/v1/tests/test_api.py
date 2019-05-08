@@ -1,9 +1,10 @@
 # for reverse urls could be usefull to use
 # $./manage.py show_urls
+import pytest
+
 from django.urls import include, path, reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, URLPatternsTestCase
-
 
 class TickersTests(APITestCase, URLPatternsTestCase):
     fixtures = ['industry', 'sector', 'company', 'ticker', 'provider', 'exchange']
@@ -12,6 +13,7 @@ class TickersTests(APITestCase, URLPatternsTestCase):
         path('api/', include('ductilis.api.v1.urls')),
     ]
 
+    @pytest.mark.django_db(transaction=False)
     def test_access_tickers(self):
         """
         Ensure we can create a new account object.
@@ -27,6 +29,7 @@ class TicksTests(APITestCase, URLPatternsTestCase):
         path('api/', include('ductilis.api.v1.urls')),
     ]
 
+    @pytest.mark.django_db
     def test_access_tickers(self):
         """
         Ensure we can create a new account object.

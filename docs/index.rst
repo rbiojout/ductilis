@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    install
+   launch
    deploy
    docker_ec2
    tests

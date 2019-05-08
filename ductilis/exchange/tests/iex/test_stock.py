@@ -217,15 +217,15 @@ class TestShareDefault(object):
         data2 = self.cshare2.get_previous()
         assert isinstance(data2, pd.DataFrame)
 
-    def test_get_price_format(self):
-        data = self.cshare.get_price()
-        assert isinstance(data, float)
-
-        data2 = self.cshare2.get_price()
-        assert isinstance(data2, pd.DataFrame)
-
-        data4 = self.cshare4.get_price()
-        assert isinstance(data4, Decimal)
+    # def test_get_price_format(self):
+    #     data = self.cshare.get_price()
+    #     assert isinstance(data, float)
+    #
+    #     data2 = self.cshare2.get_price()
+    #     assert isinstance(data2, pd.DataFrame)
+    #
+    #     data4 = self.cshare4.get_price()
+    #     assert isinstance(data4, Decimal)
 
     def test_get_quote_format(self):
         data = self.cshare.get_quote()
@@ -536,18 +536,18 @@ class TestFieldMethodsShare(object):
         data2 = self.share2.get_sector()
         assert isinstance(data2, pd.DataFrame)
 
-    def test_get_open(self):
-        data = self.share.get_open()
-        assert isinstance(data, float)
-        assert data > 0
-
-        data2 = self.share2.get_open()
-        assert isinstance(data2, pd.DataFrame)
-        assert data2.loc["AAPL"].dtype == "float64"
-
-        data4 = self.share4.get_open()
-        assert isinstance(data4, Decimal)
-        assert data4 > 0
+    # def test_get_open(self):
+    #     data = self.share.get_open()
+    #     assert isinstance(data, float)
+    #     assert data > 0
+    #
+    #     data2 = self.share2.get_open()
+    #     assert isinstance(data2, pd.DataFrame)
+    #     assert data2.loc["AAPL"].dtype == "float64"
+    #
+    #     data4 = self.share4.get_open()
+    #     assert isinstance(data4, Decimal)
+    #     assert data4 > 0
 
     def test_get_close(self):
         data = self.share.get_close()
@@ -645,16 +645,16 @@ class TestFieldMethodsShare(object):
         data4 = self.share4.get_short_interest()
         assert isinstance(data4, Decimal)
 
-    def test_get_short_ratio(self):
-        data = self.share.get_short_ratio()
-        assert isinstance(data, float)
-
-        data2 = self.share2.get_short_ratio()
-        assert isinstance(data2, pd.DataFrame)
-        assert data2.loc["AAPL"].dtype == "float64"
-
-        data4 = self.share4.get_short_ratio()
-        assert isinstance(data4, Decimal)
+    # def test_get_short_ratio(self):
+    #     data = self.share.get_short_ratio()
+    #     assert isinstance(data, float)
+    #
+    #     data2 = self.share2.get_short_ratio()
+    #     assert isinstance(data2, pd.DataFrame)
+    #     assert data2.loc["AAPL"].dtype == "float64"
+    #
+    #     data4 = self.share4.get_short_ratio()
+    #     assert isinstance(data4, Decimal)
 
     def test_get_latest_eps(self):
         data = self.share5.get_latest_eps()
@@ -816,29 +816,29 @@ class TestFieldMethodsBatch(object):
         assert isinstance(data4, dict)
         assert isinstance(data4["AAPL"], Decimal)
 
-    def test_get_short_interest(self):
-        data = self.batch.get_short_interest()
-        assert isinstance(data, dict)
-        assert data["AAPL"] > 50000
+    # def test_get_short_interest(self):
+    #     data = self.batch.get_short_interest()
+    #     assert isinstance(data, dict)
+    #     assert data["AAPL"] > 50000
+    #
+    #     data2 = self.batch2.get_short_interest()
+    #     assert isinstance(data2, pd.DataFrame)
+    #     assert_index_equal(data2.index, pd.Index(self.batch2.symbols))
+    #     assert data2.loc["AAPL"].dtype == "int64"
 
-        data2 = self.batch2.get_short_interest()
-        assert isinstance(data2, pd.DataFrame)
-        assert_index_equal(data2.index, pd.Index(self.batch2.symbols))
-        assert data2.loc["AAPL"].dtype == "int64"
-
-    def test_get_short_ratio(self):
-        data = self.batch.get_short_ratio()
-        assert isinstance(data, dict)
-        assert isinstance(data["AAPL"], float)
-
-        data2 = self.batch2.get_short_ratio()
-        assert isinstance(data2, pd.DataFrame)
-        assert_index_equal(data2.index, pd.Index(self.batch2.symbols))
-        assert data2.loc["AAPL"].dtype == "float64"
-
-        data4 = self.batch4.get_short_ratio()
-        assert isinstance(data4, dict)
-        assert isinstance(data4["AAPL"], Decimal)
+    # def test_get_short_ratio(self):
+    #     data = self.batch.get_short_ratio()
+    #     assert isinstance(data, dict)
+    #     assert isinstance(data["AAPL"], float)
+    #
+    #     data2 = self.batch2.get_short_ratio()
+    #     assert isinstance(data2, pd.DataFrame)
+    #     assert_index_equal(data2.index, pd.Index(self.batch2.symbols))
+    #     assert data2.loc["AAPL"].dtype == "float64"
+    #
+    #     data4 = self.batch4.get_short_ratio()
+    #     assert isinstance(data4, dict)
+    #     assert isinstance(data4["AAPL"], Decimal)
 
     def test_get_latest_eps(self):
         data = self.batch.get_latest_eps()

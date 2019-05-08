@@ -31,9 +31,7 @@ wheels/
 *.spec
 
 ## Virtual Env Ductilis
-ductilis/bin/
-ductilis/include/
-ductilis/lib/
+venv/
 
 
 # Installer logs

@@ -73,14 +73,27 @@ class TickManager(models.Manager):
 
 
 TICK_COLUMNS = ['date', 'open', 'high', 'low', 'close', 'volume', 'open_adj', 'high_adj', 'low_adj', 'close_adj', 'volume_adj', 'dividend', 'splits']
+TICK_DEFAULT_PROVIDER = "yahoo"
+
+# filter based on provider
+class TickDefaultProviderManagerold(models.Manager):
+    def get_queryset(self):
+        default_provider = Provider.objects.get(name = TICK_DEFAULT_PROVIDER)
+        try:
+            return super().get_queryset()
+        except:
+            return super().get_queryset().filter(provider=default_provider)
+
+class TickDefaultProviderManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(provider__name=TICK_DEFAULT_PROVIDER)
 
 # used for fixtures
-class TickManager(models.Manager):
+class TickSingleSymbolManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(ticker__symbol='AAPL')
+        return super().get_queryset().filter(ticker__symbol='AAPL').filter(date__gte='2010-01-01')
 
 class Tick(models.Model):
-    #objects = TickManager()
     id = models.BigAutoField(primary_key=True)
     ticker = models.ForeignKey(Ticker, on_delete=models.CASCADE, related_name='ticker_ticks')
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='provider_ticks')
@@ -100,8 +113,14 @@ class Tick(models.Model):
     dividend = models.FloatField(null=True, blank=True)
     splits = models.FloatField(null=True, blank=True)
 
+    objects = models.Manager()  # The default manager.
+    default_provider_objects = TickDefaultProviderManager()  # Specific manager for default provider.
+
+    single_symbol_objects = TickSingleSymbolManager() # extract only for AAPL
+
     # second index as small as possible
     class Meta:
+        default_manager_name = 'objects'
         unique_together = (
             'ticker',
             'provider',

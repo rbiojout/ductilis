@@ -41,4 +41,16 @@ could be used BUT there is a problem with the bundle
 - don't use chunks for the moment as it prevent the work
 - use directely the integration of the different apps by invoking the js that will mount on the DOM
 
-## 
+#Launching
+activate the venv
+launch django
+~~~~
+source venv/bin/activate
+./manage.py runserver
+~~~~
+
+launch the front
+~~~~
+yarn start
+~~~~
+

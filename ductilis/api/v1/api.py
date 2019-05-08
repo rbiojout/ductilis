@@ -84,12 +84,9 @@ class TickerViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet):
 class TickViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet):
     # use prefetch to speed-up requests
     # when first start take care of empty DB
-    try:
-        provider = Provider.objects.get(name='yahoo')
-        queryset = Tick.objects.all().filter(provider=provider)
-    except Exception as e:
-        print("exception ",e)
-        queryset = Tick.objects.all()
+    queryset = Tick.default_provider_objects.all()
+    #queryset = Tick.objects.all()
+
     permission_classes = [permissions.AllowAny, ]
     serializer_class = TickSerializer
 

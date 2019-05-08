@@ -1,5 +1,5 @@
 [run]
-include = ductilis/*
+include = ductilis/* computation/*
 omit = *migrations*, *tests*
 plugins =
     django_coverage_plugin

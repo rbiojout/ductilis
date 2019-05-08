@@ -50,7 +50,7 @@ class TickerChooser extends Component {
     {allTickersStatus.failed && (
       <span>
         There was an error loading .{' '}
-        <button onClick={this.fetchTickersIfNeeded}>Try again.</button>
+        <button onClick={this.handleRefreshClick}>Try again.</button>
       </span>
     )}
     {allTickersStatus.succeeded && 

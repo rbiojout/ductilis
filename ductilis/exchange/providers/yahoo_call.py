@@ -77,6 +77,14 @@ COLUMN_MAPPING = {"Date": "date", "Open": "open", "High": "high", "Low": "low", 
             "Dividends": "dividend", "Stock Splits": "splits"}
 
 def fill_ticks(ticker='AAPL'):
+    """
+    collect Open	High	Low	    Close(*)	Adj Close(**)	Volume	Dividends	Stock Splits
+    *Close price adjusted for splits.**Adjusted close price adjusted for both dividends and splits.
+
+    Open, High, Low and Close are adjusted for split
+    :param ticker:
+    :return:
+    """
     now = datetime.datetime.now()
     start = timeit.default_timer()
     dataset = yf.download(ticker, start="1980-01-01", auto_adjust = False, actions = True,)

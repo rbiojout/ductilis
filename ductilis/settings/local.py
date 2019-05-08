@@ -73,9 +73,9 @@ INSTALLED_APPS += ['django_extensions']  # noqa F405
 # Celery
 # ------------------------------------------------------------------------------
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-always-eager
-CELERY_TASK_ALWAYS_EAGER = True
+#CELERY_TASK_ALWAYS_EAGER = True
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-eager-propagates
-CELERY_TASK_EAGER_PROPAGATES = True
+#CELERY_TASK_EAGER_PROPAGATES = True
 
 # Necessary for development
 # cf https://stackoverflow.com/questions/40066019/django-1-10-exception-while-resolving-variable-is-popup-in-template-admin-log
