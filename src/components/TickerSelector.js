@@ -9,7 +9,7 @@ class TickerSelector extends Component {
       const { selectedTicker, onChange, options } = this.props
       
       var selected = options.find(function(element) {
-        return element['symbol'] == selectedTicker;
+        return element['symbol'] === selectedTicker;
       });
       console.log("props TickerSelector", this.props)
       return (
