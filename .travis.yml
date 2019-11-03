@@ -34,4 +34,4 @@ matrix:
         - yarn install
       script:
         - yarn test
-        - yarn build
+        - "REACT_APP_CI=true yarn build"
