@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { getResources, getStatus } from 'redux-resource';
+// object validator
 import * as Yup from 'yup';
 import { 
   readManyUserPortfolios, 
@@ -10,6 +11,7 @@ import {
   deletePortfolio 
 } from '../actions/crud_portfolios';
 
+// form helper
 import { Formik, Form, Field } from 'formik';
 import {
   Button,

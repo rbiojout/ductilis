@@ -160,8 +160,7 @@ handleSubmit(e) {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                      <Button color="primary" className="mt-3" active>Register Now!</Button>
-                      <Link to="/register" className="btn btn-link">Register</Link>
+                      <Link to="/register" className="btn btn-link"><Button color="primary" className="mt-3" active>Register</Button></Link>
                     </div>
                   </CardBody>
                 </Card>

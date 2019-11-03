@@ -30,4 +30,5 @@ the file **.env.local** contains information for the frontend
 the file **settings.ini** contains informations for Django and must be rewritten for production
 the folder **.envs** is used to store settings informations for Django
 
-the file **.npmrc** contains informations for font-awesome
+the file **.npmrc** contains informations for font-awesome and must be hidden
+

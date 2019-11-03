@@ -1,4 +1,5 @@
 from .base import *
+from kombu import Queue, Exchange
 
 print("IN DEVELOPMENT CONFIG")
 
@@ -12,8 +13,22 @@ ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default=['*.amazonaws.com', '*.du
 
 MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware',]
 
+CELERY_QUEUES = (
+    Queue('high', Exchange('high'), routing_key='high'),
+    Queue('celery', Exchange('celery'), routing_key='celery'),
+    Queue('low', Exchange('low'), routing_key='low'),
+)
+CELERY_DEFAULT_QUEUE = 'celery'
+CELERY_DEFAULT_EXCHANGE = 'celery'
+CELERY_DEFAULT_ROUTING_KEY = 'celery'
 
-# CELERY_TASK_DEFAULT_QUEUE = ''
+#CELERY_ROUTES = {
+    # -- HIGH PRIORITY QUEUE -- #
+#    'myapp.tasks.check_payment_status': {'queue': 'high'},
+    # -- LOW PRIORITY QUEUE -- #
+#    'myapp.tasks.close_session': {'queue': 'low'},
+#}
+
 
 # use PROJECT_DIR to position the logs
 LOGGING = {

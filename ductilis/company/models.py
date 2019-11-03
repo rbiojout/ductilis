@@ -59,7 +59,6 @@ ANNOUNCE_TIME = (
     )
 
 class Earning(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     fiscalPeriod = models.ForeignKey(FiscalPeriod, on_delete=models.CASCADE)
     actualEPS = models.FloatField(default=0.0, null=True)
     consensusEPS = models.FloatField(default=0.0, null=True)
@@ -72,6 +71,8 @@ class Earning(models.Model):
     yearAgo = models.FloatField(default=0.0, null=True)
     yearAgoChangePercent = models.FloatField(default=0.0, null=True)
     estimatedChangePercent = models.FloatField(default=0.0, null=True)
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     # second index as small as possible
     class Meta:

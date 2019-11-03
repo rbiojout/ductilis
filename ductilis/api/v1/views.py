@@ -12,13 +12,13 @@ router = ExtendedSimpleRouter()
     router.register(r'portfolios', PortfolioViewSet, base_name='portfolio')
           .register(r'weight_portfolios',
                     WeightPortfolioViewSet,
-                    base_name='portfolios-weight_portfolios',
+                    basename='portfolios-weight_portfolios',
                     parents_query_lookups=['portfolio']),
 
     router.register(r'tickers', TickerViewSet, base_name='ticker')
           .register(r'ticks',
                     TickViewSet,
-                    base_name='tickers-ticks',
+                    basename='tickers-ticks',
                     parents_query_lookups=['ticker__symbol'])
 )
 
